@@ -23,7 +23,7 @@ public class Parque implements IParque{
 	/** 
 	 * Atributo que contiene el aforo maximo del parque permitido. 
 	*/
-	private static final int AFORO = 50;
+	private int AFORO;
 	/** 
 	 * Almacena el tiempo medio.
 	*/
@@ -35,12 +35,13 @@ public class Parque implements IParque{
 	/** 
 	 * Constructor de la clase.
 	*/
-	public Parque() {
+	public Parque(int capacidad) {
 		// Se inicializan los atributos.
 		contadorPersonasTotales = 0;
 		contadoresPersonasPuerta = new Hashtable<String, Integer>();
 		tInicial = System.currentTimeMillis();
 		tMedio = 0;
+		this.AFORO = capacidad;
 	}
 
 	/** 

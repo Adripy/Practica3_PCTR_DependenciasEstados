@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 /** 
  * Clase ActividadSalidaPuerta.
  * @implements Runnable.
+ * @author Adrián Cordero Bernal y Jesús García Armario.
 */
 public class ActividadSalidaPuerta implements Runnable{
 
