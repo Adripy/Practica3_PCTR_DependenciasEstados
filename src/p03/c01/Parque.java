@@ -1,10 +1,16 @@
+// PAQUETE
 package src.p03.c01;
 
+// IMPORTS
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+/** 
+ * Clase Parque.
+ * @author Adrián Cordero Bernal y Jesús García Armario.
+ * @implements src.p03.c01.IParque
+*/
 public class Parque implements IParque{
-
 
 	/** 
 	 * Atributo que almacena las personas totales.
@@ -18,13 +24,23 @@ public class Parque implements IParque{
 	 * Atributo que contiene el aforo maximo del parque permitido. 
 	*/
 	private static final int AFORO = 50;
-
+	/** 
+	 * Almacena el tiempo medio.
+	*/
+	private double tMedio;
+	/** 
+	 * Almacena el tiempo inicial.
+	*/
+	private long tInicial;
 	/** 
 	 * Constructor de la clase.
 	*/
 	public Parque() {
+		// Se inicializan los atributos.
 		contadorPersonasTotales = 0;
 		contadoresPersonasPuerta = new Hashtable<String, Integer>();
+		tInicial = System.currentTimeMillis();
+		tMedio = 0;
 	}
 
 	/** 
@@ -89,9 +105,15 @@ public class Parque implements IParque{
 		checkInvariante();
 	}
 	
+	/**
+	 * Método imprimirInfo.
+	 * Imprime la información del parque.
+	 * @param puerta Puerta de acceso.
+	 * @param movimiento Entrada o Salida.
+	 */
 	private void imprimirInfo (String puerta, String movimiento){
 		System.out.println(movimiento + " por puerta " + puerta);
-		System.out.println("--> Personas en el parque " + contadorPersonasTotales); //+ " tiempo medio de estancia: "  + tmedio);
+		System.out.println("--> Personas en el parque " + contadorPersonasTotales+ " tiempo medio de estancia: "  + obtenerTiempoMedio());
 		
 		// Iteramos por todas las puertas e imprimimos sus entradas
 		for(String p: contadoresPersonasPuerta.keySet()){
@@ -99,7 +121,19 @@ public class Parque implements IParque{
 		}
 		System.out.println(" ");
 	}
-	
+	/**
+	 * Calcula el tiempo medio de estancia.
+	 * @return double. Devuelve el tiempo medio.
+	 */
+	private double obtenerTiempoMedio(){
+		long tActual = System.currentTimeMillis();
+        tMedio = (tMedio + (tActual - tInicial))/2.0;
+        return tMedio/1000;
+	}
+	/**
+	 * Método privado que calcula el total de visitantes del parque según cada puerta.
+	 * @return int sumaContadoresPuerta. Total de visitantes dentro del parque.
+	*/
 	private int sumarContadoresPuerta() {
 		int sumaContadoresPuerta = 0;
 			Enumeration<Integer> iterPuertas = contadoresPersonasPuerta.elements();
@@ -126,6 +160,7 @@ public class Parque implements IParque{
 			try {
 				this.wait();	
 			} catch (InterruptedException e) {
+				// Interrumpimos el hilo e imprimimos la traza de error.
 				Thread.currentThread().interrupt();
 				e.printStackTrace();
 			}
@@ -140,13 +175,10 @@ public class Parque implements IParque{
 			try {
 				this.wait();
 			} catch (InterruptedException e) {
+				// Interrumpimos el hilo e imprimimos la traza de error.
 				Thread.currentThread().interrupt(); 
 				e.printStackTrace();
 			}
 		}
 	}
-
-
-
-
 }
