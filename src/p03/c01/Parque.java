@@ -6,27 +6,40 @@ import java.util.Hashtable;
 public class Parque implements IParque{
 
 
-	// TODO 
+	/** 
+	 * Atributo que almacena las personas totales.
+	*/
 	private int contadorPersonasTotales;
+	/** 
+	 * Tabla Hash con el número de personas en cada puerta. 
+	*/
 	private Hashtable<String, Integer> contadoresPersonasPuerta;
 	
-	
+	/** 
+	 * Constructor de la clase.
+	*/
 	public Parque() {
 		contadorPersonasTotales = 0;
 		contadoresPersonasPuerta = new Hashtable<String, Integer>();
 	}
 
-
+	/** 
+	 * Método entrarAlParque.
+	 * Sincronizado.
+	 * 
+	 * @param String puerta. Puerta de entrada al parque
+	 * @return void
+	*/
 	@Override
-	public void entrarAlParque(String puerta){		// TODO
+	public synchronized void entrarAlParque(String puerta){		
 		
 		// Si no hay entradas por esa puerta, inicializamos
 		if (contadoresPersonasPuerta.get(puerta) == null){
 			contadoresPersonasPuerta.put(puerta, 0);
 		}
 		
-		// TODO
-				
+		// Se comprueba precondición.
+		comprobarAntesDeEntrar();
 		
 		// Aumentamos el contador total y el individual
 		contadorPersonasTotales++;		
@@ -35,17 +48,23 @@ public class Parque implements IParque{
 		// Imprimimos el estado del parque
 		imprimirInfo(puerta, "Entrada");
 		
-		// TODO
+		//
 		
 		
-		// TODO
+		// Comprobamos postcondición
+		checkInvariante();
 		
 	}
 	
 	// 
-	// TODO Método salirDelParque
+	// Implementación de método salirDelParque
 	//
 	
+	@Override
+	public void salirDelParque(String puerta) {
+		// TODO 
+		
+	}
 	
 	private void imprimirInfo (String puerta, String movimiento){
 		System.out.println(movimiento + " por puerta " + puerta);
@@ -87,6 +106,8 @@ public class Parque implements IParque{
 		// TODO
 		//
 	}
+
+
 
 
 }
