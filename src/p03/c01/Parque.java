@@ -58,17 +58,35 @@ public class Parque implements IParque{
 		
 		// Comprobamos invariantes.
 		checkInvariante();
-		
 	}
 	
-	// 
-	// Implementación de método salirDelParque
-	//
-	
+	/** 
+	 * Método salirDelParque.
+	 * 
+	 * @param String puerta. Puerta de entrada al parque
+	 * @return void
+	*/
 	@Override
 	public void salirDelParque(String puerta) {
-		// TODO 
 		
+		if (contadoresPersonasPuerta.get(puerta) == null) {
+			contadoresPersonasPuerta.remove(puerta);
+		}
+		// Se comprueba precondición
+		comprobarAntesDeSalir();
+
+		// Disminuimos el contador total y el individual
+		contadorPersonasTotales--;
+		contadoresPersonasPuerta.put(puerta, contadoresPersonasPuerta.get(puerta) - 1);
+
+		// Imprimimos el estado del parque
+		imprimirInfo(puerta, "Salida");
+
+		//Despertamos a los hilos en espera por una orden wait().
+		this.notifyAll();
+
+		// Comprobamos invariantes.
+		checkInvariante();
 	}
 	
 	private void imprimirInfo (String puerta, String movimiento){
@@ -108,15 +126,24 @@ public class Parque implements IParque{
 			try {
 				this.wait();	
 			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
 				e.printStackTrace();
 			}
 		}
 	}
 
+	/** 
+	 * Mientras no haya personas dentro del parque permanecera a la espera.
+	*/
 	protected void comprobarAntesDeSalir(){
-		//
-		// TODO
-		//
+		while (contadorPersonasTotales == 0) {
+			try {
+				this.wait();
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt(); 
+				e.printStackTrace();
+			}
+		}
 	}
 
 
