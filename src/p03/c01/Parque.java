@@ -13,8 +13,12 @@ public class Parque implements IParque{
 	/** 
 	 * Tabla Hash con el número de personas en cada puerta. 
 	*/
-	private Hashtable<String, Integer> contadoresPersonasPuerta;
-	
+	private Hashtable<String, Integer> contadoresPersonasPuerta;	
+	/** 
+	 * Atributo que contiene el aforo maximo del parque permitido. 
+	*/
+	private static final int AFORO = 50;
+
 	/** 
 	 * Constructor de la clase.
 	*/
@@ -87,12 +91,9 @@ public class Parque implements IParque{
 	}
 	
 	protected void checkInvariante() {
-		assert sumarContadoresPuerta() == contadorPersonasTotales : "INV: La suma de contadores de las puertas debe ser igual al valor del contador del parte";
-		// TODO 
-		// TODO
-		
-		
-		
+		assert sumarContadoresPuerta() == contadorPersonasTotales : "INV: La suma de contadores de las puertas debe ser igual al valor del contador del parque";
+		assert contadorPersonasTotales <= AFORO : "INV: Aforo máximo alcanzado, no se permiten más personas.";
+		assert contadorPersonasTotales >= 0 : "INV: Error en las salidas del parque.";
 	}
 
 	protected void comprobarAntesDeEntrar(){
