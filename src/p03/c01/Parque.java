@@ -16,7 +16,9 @@ public class Parque implements IParque{
 	 * Atributo que almacena las personas totales.
 	*/
 	private int contadorPersonasTotales;
+	/** Contador de entradas por puerta*/
 	private Hashtable<String, Integer> contadoresPersonasPuertaEntrada;
+	/** Contador de salidas por puerta*/
 	private Hashtable<String, Integer> contadoresPersonasPuertaSalida;
 	/** 
 	 * Atributo que contiene el aforo maximo del parque permitido. 
@@ -116,7 +118,7 @@ public class Parque implements IParque{
 			}
 		}
 		else {
-			// Iteramos por todas las puertas de entrada e imprimimos sus entradas
+			// Iteramos por todas las puertas de salida e imprimimos sus salidas
 			for(String p: contadoresPersonasPuertaSalida.keySet()){
 				System.out.println("  -->Salidas por puerta " + p + " " + contadoresPersonasPuertaSalida.get(p));
 			}
@@ -153,9 +155,8 @@ public class Parque implements IParque{
 
 	/** 
 	 * Mientras el parque esté lleno, no se podrá entrar y mantendrá en espera.
-	 * @throws InterruptedException 
 	*/
-	protected synchronized void comprobarAntesDeEntrar(){
+	protected void comprobarAntesDeEntrar(){
 		while(contadorPersonasTotales == AFORO){
 			try {
 				wait();
@@ -167,9 +168,8 @@ public class Parque implements IParque{
 
 	/** 
 	 * Mientras no haya personas dentro del parque permanecera a la espera.
-	 * @throws InterruptedException 
 	*/
-	protected synchronized void comprobarAntesDeSalir(){
+	protected void comprobarAntesDeSalir(){
 		while (contadorPersonasTotales == 0) {
 			try {
 				wait();
