@@ -52,10 +52,11 @@ public class Parque implements IParque{
 		// Imprimimos el estado del parque
 		imprimirInfo(puerta, "Entrada");
 		
-		//
+		//Despertamos a los hilos en espera por una orden wait().
 		
+		this.notifyAll();
 		
-		// Comprobamos postcondición
+		// Comprobamos invariantes.
 		checkInvariante();
 		
 	}
@@ -90,16 +91,26 @@ public class Parque implements IParque{
 		return sumaContadoresPuerta;
 	}
 	
+	/**
+	 * Método que chequea los invariantes.
+	 */
 	protected void checkInvariante() {
 		assert sumarContadoresPuerta() == contadorPersonasTotales : "INV: La suma de contadores de las puertas debe ser igual al valor del contador del parque";
 		assert contadorPersonasTotales <= AFORO : "INV: Aforo máximo alcanzado, no se permiten más personas.";
 		assert contadorPersonasTotales >= 0 : "INV: Error en las salidas del parque.";
 	}
 
+	/** 
+	 * Mientras el parque esté lleno, no se podrá entrar y mantendrá en espera.
+	*/
 	protected void comprobarAntesDeEntrar(){
-		//
-		// TODO
-		//
+		while(contadorPersonasTotales==AFORO){
+			try {
+				this.wait();	
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	protected void comprobarAntesDeSalir(){
